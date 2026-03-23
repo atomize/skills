@@ -108,7 +108,7 @@ grep -rn '[a-f0-9]\{32,\}' --include="*.ts" --include="*.js"
 ```bash
 # Search all commits for a string
 git log -p --all -S "client_secret"
-git log -p --all -S "d19b3650"  # partial key
+git log -p --all -S "abc12345"  # partial key
 
 # Search specific file history
 git log -p -- .env.example
@@ -152,11 +152,11 @@ git filter-repo --path path/to/secret-file --invert-paths
 
 ```bash
 git commit -m "$(cat <<'EOF'
-feat(auth): add GitHub OAuth login
+feat(auth): add OAuth login support
 
-- New oauth.ts module with arctic library
-- DB migration for oauth_provider/oauth_id columns
-- AuthGate shows provider buttons dynamically
+- New oauth module with provider integration
+- DB migration for provider identity columns
+- Login UI shows provider buttons dynamically
 EOF
 )"
 ```

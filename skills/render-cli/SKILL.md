@@ -200,11 +200,11 @@ render logs --service-id srv-xxxx --tail 50
 Build packages in dependency order:
 
 ```dockerfile
-# shared has no deps -> claude-agent depends on shared -> monitor depends on both
+# Build in dependency order: shared first, then packages that depend on it
 RUN pnpm --filter @scope/shared build \
- && pnpm --filter @scope/claude-agent build \
- && pnpm --filter @scope/monitor build \
- && pnpm --filter @scope/dashboard build
+ && pnpm --filter @scope/lib-a build \
+ && pnpm --filter @scope/server build \
+ && pnpm --filter @scope/frontend build
 ```
 
 ### Runtime failures

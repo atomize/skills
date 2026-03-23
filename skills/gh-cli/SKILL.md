@@ -185,6 +185,6 @@ gh api /user --jq '.login'
 ### Search across repos
 
 ```bash
-gh search repos "tastytrade" --owner=atomize --json name,url
-gh search code "ENCRYPTION_KEY" --repo owner/repo
+gh search repos "keyword" --owner=myuser --json name,url
+gh search code "CONFIG_KEY" --repo owner/repo
 ```

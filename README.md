@@ -1,40 +1,88 @@
-# Skills
+# skills
 
-Reusable [Cursor Agent Skills](https://docs.cursor.com/context/skills) for CLI workflows.
+Reusable [Agent Skills](https://agentskills.io) for CLI workflows. Works with Cursor, Claude Code, Codex, GitHub Copilot, and [40+ other agents](https://github.com/vercel-labs/skills#supported-agents).
+
+## Install
+
+```bash
+npx skills add atomize/skills
+```
+
+### Install specific skills
+
+```bash
+npx skills add atomize/skills --skill gh-cli
+npx skills add atomize/skills --skill render-cli
+npx skills add atomize/skills --skill git-cli
+```
+
+### Install globally (available across all projects)
+
+```bash
+npx skills add atomize/skills -g
+```
+
+### Install for a specific agent
+
+```bash
+npx skills add atomize/skills -a cursor
+npx skills add atomize/skills -a claude-code
+npx skills add atomize/skills -a codex
+```
+
+### List available skills before installing
+
+```bash
+npx skills add atomize/skills --list
+```
 
 ## Available Skills
 
 | Skill | Description |
 |-------|-------------|
-| [gh-cli](gh-cli/SKILL.md) | GitHub CLI — repo management, OAuth app creation (with browser MCP fallback), API queries, releases, secrets |
-| [render-cli](render-cli/SKILL.md) | Render CLI & API — blueprint deployment, env var management, deploy monitoring, troubleshooting |
-| [git-cli](git-cli/SKILL.md) | Git — orphan branches, clean history publishing, multi-remote workflows, secret remediation |
+| **gh-cli** | GitHub CLI — repo management, OAuth app creation (with browser automation fallback), API queries, PRs, releases, secrets |
+| **render-cli** | Render CLI & API — blueprint deployment, env var management via REST API, deploy monitoring, monorepo build order, troubleshooting |
+| **git-cli** | Git — orphan branches, clean history publishing, multi-remote workflows, squash strategies, secret remediation |
 
-## Usage
+## What are Agent Skills?
 
-### As personal skills (available in all projects)
+Agent Skills are an open standard for extending AI coding agents with domain-specific knowledge. Each skill is a `SKILL.md` file with YAML frontmatter that agents auto-discover and apply when relevant.
 
-```bash
-# Symlink into your personal skills directory
-ln -s /path/to/skills/gh-cli ~/.cursor/skills/gh-cli
-ln -s /path/to/skills/render-cli ~/.cursor/skills/render-cli
-ln -s /path/to/skills/git-cli ~/.cursor/skills/git-cli
-```
+These skills encode real-world edge cases and workarounds discovered through production use — things like:
 
-### As project skills (shared with repo collaborators)
-
-```bash
-# Copy into your project
-cp -r /path/to/skills/gh-cli .cursor/skills/gh-cli
-```
+- GitHub's OAuth App creation has no API (requires browser automation or manual UI)
+- Render's CLI has no `env set` command (must use REST API with specific endpoint patterns)
+- `git rebase -i` can't be used in agent/CI contexts (use `--soft` reset instead)
 
 ## Structure
 
-Each skill follows the Cursor SKILL.md format:
-
 ```
-skill-name/
-└── SKILL.md    # Frontmatter (name + description) + instructions
+skills/
+├── gh-cli/
+│   └── SKILL.md
+├── render-cli/
+│   └── SKILL.md
+└── git-cli/
+    └── SKILL.md
 ```
 
-The `description` field in frontmatter determines when the agent auto-applies the skill. Each skill is self-contained in a single `SKILL.md` under 500 lines.
+Skills follow the [Agent Skills spec](https://agentskills.io). Each `SKILL.md` has:
+
+- **Frontmatter**: `name` and `description` (used for auto-discovery)
+- **Body**: Concise instructions, commands, edge cases, and workarounds
+
+## Manual Installation
+
+If you prefer not to use `npx skills`, copy or symlink skill directories directly:
+
+```bash
+# Symlink to Cursor global skills
+ln -s /path/to/skills/skills/gh-cli ~/.cursor/skills/gh-cli
+
+# Or copy to a project
+cp -r /path/to/skills/skills/gh-cli .cursor/skills/gh-cli
+```
+
+## License
+
+MIT
